@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Main {
     public static void main(String[] args) {
         // Reto para el desarrollador:
@@ -23,6 +27,7 @@ public class Main {
 
         // Filtra por categoría
         List<TicketItem> filteredItems = filterByCategory(items, categoryToFilter);
+        System.out.println("Filtered Items:" + filteredItems.toString());
 
         // Calcula el total
         double total = calculateTotal(filteredItems);
@@ -33,19 +38,39 @@ public class Main {
     // TODO: Implementar esta función
     public static List<TicketItem> processTicketLines(String[] ticketLines) {
         // Analizar las líneas del ticket y crear una lista de objetos TicketItem
-        return null; // Devuelve null por ahora, ¡implementa esto!
+        List<TicketItem> items= new ArrayList<>();
+
+        for (String ticketLine : ticketLines) {
+            String[] ticketLineArray = ticketLine.split(",");
+            String productName = ticketLineArray[0];
+            String category = ticketLineArray[1];
+            double price = Double.parseDouble(ticketLineArray[2]);
+            items.add(new TicketItem(productName, category, price));
+        }
+        for (TicketItem item : items) {
+            System.out.println(item.toString());
+        }
+        return items; // Devuelve null por ahora, ¡implementa esto!
     }
 
     // TODO: Implementar esta función
     public static List<TicketItem> filterByCategory(List<TicketItem> items, String category) {
         // Filtrar la lista de TicketItem por la categoría especificada
-        return null; // Devuelve null por ahora, ¡implementa esto!
+        return items.stream().filter(item-> item.getCategoria()
+                        .equals(category))
+                .collect(Collectors.toList());
     }
 
     // TODO: Implementar esta función
     public static double calculateTotal(List<TicketItem> items) {
         // Calcular el precio total de los elementos en la lista
-        return 0.0; // Devuelve 0.0 por ahora, ¡implementa esto!
+
+        double total = 0.0;
+        for(TicketItem item : items) {
+            total+=item.getPrecio();
+
+        }
+        return total; // Devuelve 0.0 por ahora, ¡implementa esto!
     }
 }
 

@@ -1,13 +1,9 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Main {
     public static void main(String[] args) {
-        // Reto para el desarrollador:
-        // 1. Implementar la función 'processTicketLines' para analizar las líneas del ticket
-        //    y crear una lista de objetos 'TicketItem'.
-        // 2. Implementar la función 'filterByCategory' para filtrar la lista de 'TicketItem'
-        //    por una categoría específica.
-        // 3. Implementar la función 'calculateTotal' para calcular el precio total de los
-        //    elementos filtrados.
-
         String[] ticketLines = {
                 "ProductoA,Electrónicos,50.00",
                 "ProductoB,Ropa,25.00",
@@ -30,22 +26,33 @@ public class Main {
         System.out.println("Total de " + categoryToFilter + ": " + total);
     }
 
-    // TODO: Implementar esta función
+    // Convierte las líneas del ticket en objetos TicketItem
     public static List<TicketItem> processTicketLines(String[] ticketLines) {
-        // Analizar las líneas del ticket y crear una lista de objetos TicketItem
-        return null; // Devuelve null por ahora, ¡implementa esto!
+        List<TicketItem> items = new ArrayList<>();
+        for (String line : ticketLines) {
+            String[] parts = line.split(",");
+            if (parts.length == 3) {
+                String producto = parts[0].trim();
+                String categoria = parts[1].trim();
+                double precio = Double.parseDouble(parts[2].trim());
+                items.add(new TicketItem(producto, categoria, precio));
+            }
+        }
+        return items;
     }
 
-    // TODO: Implementar esta función
+    // Filtra los TicketItem por categoría
     public static List<TicketItem> filterByCategory(List<TicketItem> items, String category) {
-        // Filtrar la lista de TicketItem por la categoría especificada
-        return null; // Devuelve null por ahora, ¡implementa esto!
+        return items.stream()
+                .filter(item -> item.getCategoria().equalsIgnoreCase(category))
+                .collect(Collectors.toList());
     }
 
-    // TODO: Implementar esta función
+    // Suma los precios de los TicketItem
     public static double calculateTotal(List<TicketItem> items) {
-        // Calcular el precio total de los elementos en la lista
-        return 0.0; // Devuelve 0.0 por ahora, ¡implementa esto!
+        return items.stream()
+                .mapToDouble(TicketItem::getPrecio)
+                .sum();
     }
 }
 

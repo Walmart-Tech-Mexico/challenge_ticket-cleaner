@@ -1,3 +1,7 @@
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
 public class Main {
     public static void main(String[] args) {
         // Reto para el desarrollador:
@@ -32,20 +36,46 @@ public class Main {
 
     // TODO: Implementar esta función
     public static List<TicketItem> processTicketLines(String[] ticketLines) {
-        // Analizar las líneas del ticket y crear una lista de objetos TicketItem
-        return null; // Devuelve null por ahora, ¡implementa esto!
+        if (ticketLines == null || ticketLines.length == 0) return null;
+        return Arrays.stream(ticketLines)
+                .map(Main::parseTicket)
+                .filter(Objects::nonNull)
+                .toList();
+    }
+
+    public static TicketItem parseTicket(String ticketLine) {
+        String[] attributes = ticketLine.split(",");
+
+        if (attributes.length != 3) {
+            System.err.println("Invalid line: " + ticketLine);
+            return null;
+        }
+
+        try {
+            String productName = attributes[0].trim();
+            String category = attributes[1].trim();
+            double price = Double.parseDouble(attributes[2].trim());
+            return new TicketItem(productName, category, price);
+        } catch (NumberFormatException e) {
+            System.err.println("Invalid price using line: " + ticketLine);
+            return null;
+        }
     }
 
     // TODO: Implementar esta función
     public static List<TicketItem> filterByCategory(List<TicketItem> items, String category) {
-        // Filtrar la lista de TicketItem por la categoría especificada
-        return null; // Devuelve null por ahora, ¡implementa esto!
+        if (items == null) return null;
+        return items.stream()
+                .filter(item -> item.getCategoria().equals(category))
+                .toList();
     }
 
     // TODO: Implementar esta función
     public static double calculateTotal(List<TicketItem> items) {
-        // Calcular el precio total de los elementos en la lista
-        return 0.0; // Devuelve 0.0 por ahora, ¡implementa esto!
+        if (items == null) return 0.0;
+        return items.stream()
+                .mapToDouble(TicketItem::getPrecio)
+                .sum();
     }
 }
 

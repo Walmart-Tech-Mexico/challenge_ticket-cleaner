@@ -30,22 +30,49 @@ public class Main {
         System.out.println("Total de " + categoryToFilter + ": " + total);
     }
 
-    // TODO: Implementar esta función
+        // TODO: Implementar esta función
     public static List<TicketItem> processTicketLines(String[] ticketLines) {
         // Analizar las líneas del ticket y crear una lista de objetos TicketItem
-        return null; // Devuelve null por ahora, ¡implementa esto!
+    	List<TicketItem> items = new ArrayList<>();
+    	
+    	for (String line : ticketLines) {
+    		String[] parts = line.split(",");
+    		if(parts.length == 3) {
+    			String producto = parts[0];
+    			String categoria = parts[1];
+    			double precio = Double.parseDouble(parts[2]);
+    			
+    			TicketItem item = new TicketItem(producto, categoria, precio);
+    			items.add(item);
+    		}
+    	}
+        return items; // Devuelve null por ahora, ¡implementa esto!
     }
 
     // TODO: Implementar esta función
     public static List<TicketItem> filterByCategory(List<TicketItem> items, String category) {
         // Filtrar la lista de TicketItem por la categoría especificada
-        return null; // Devuelve null por ahora, ¡implementa esto!
+    	List<TicketItem> filtered = new ArrayList<>();
+    	
+    	for (TicketItem item : items) {
+    		if (item.getCategoria().equalsIgnoreCase(category)) {
+				filtered.add(item);
+			}
+			
+		}
+    	
+    	return filtered; // Devuelve null por ahora, ¡implementa esto!
     }
 
     // TODO: Implementar esta función
     public static double calculateTotal(List<TicketItem> items) {
         // Calcular el precio total de los elementos en la lista
-        return 0.0; // Devuelve 0.0 por ahora, ¡implementa esto!
+        double total = 0.0;
+        
+        for(TicketItem item : items) {
+        	total += item.getPrecio();
+        }
+    	return total; // Devuelve 0.0 por ahora, ¡implementa esto!
     }
 }
 

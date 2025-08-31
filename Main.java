@@ -1,3 +1,9 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 public class Main {
     public static void main(String[] args) {
         // Reto para el desarrollador:
@@ -32,20 +38,24 @@ public class Main {
 
     // TODO: Implementar esta función
     public static List<TicketItem> processTicketLines(String[] ticketLines) {
-        // Analizar las líneas del ticket y crear una lista de objetos TicketItem
-        return null; // Devuelve null por ahora, ¡implementa esto!
+        return Stream.of(ticketLines).map(line->{
+            List<String> split = Arrays.stream(line.split(",")).toList();
+            return new TicketItem(split.get(0),split.get(1),Double.parseDouble(split.get(2)));
+        }).collect(Collectors.toList());
     }
 
     // TODO: Implementar esta función
     public static List<TicketItem> filterByCategory(List<TicketItem> items, String category) {
-        // Filtrar la lista de TicketItem por la categoría especificada
-        return null; // Devuelve null por ahora, ¡implementa esto!
+        if(category==null || category.isEmpty()){
+            System.out.println("Categoria no valida");
+            return new ArrayList<>();
+        }
+        return items.stream().filter(item->item.getCategoria().equals(category)).toList();
     }
 
     // TODO: Implementar esta función
     public static double calculateTotal(List<TicketItem> items) {
-        // Calcular el precio total de los elementos en la lista
-        return 0.0; // Devuelve 0.0 por ahora, ¡implementa esto!
+        return items.stream().mapToDouble(item->item.getPrecio()).sum();
     }
 }
 
